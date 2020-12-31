@@ -12,4 +12,4 @@ GMAIL_USER=your@email.com
 GMAIL_PASSWORD=yourpassword
 RECEIVERS={"Alice":"alice@email.com","Bob":"bob@email.com"}
 ```
-*Note: Only gmail account has been tested with "less secure apps" being turn on.*
+*Note: Only gmail account has been tested with "less secure apps" being switched on.*
