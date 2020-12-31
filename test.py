@@ -20,9 +20,7 @@ SENDER = env["GMAIL_USER"]
 PASSWORD = env["GMAIL_PASSWORD"]
 receivers=env["RECEIVERS"]
 receiver = ast.literal_eval(receivers)
-print(SENDER)
-print(PASSWORD)
-print(receiver)
+
 
 def send_email(recipient, subject, body,time=True,filename='log.txt'):
     now = datetime.now()

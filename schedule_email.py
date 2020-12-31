@@ -25,7 +25,7 @@ def send_email(recipient, subject, body,time=True,filename='log.txt'):
     msg.set_content(body+('\nsent at '+current_time )*(time==True))
     msg["Subject"] = subject
     msg["From"] = SENDER
-    msg["To"] = recipient    
+    msg["To"] = recipient
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
     server.login(SENDER, PASSWORD)
     server.send_message(msg)
@@ -54,6 +54,7 @@ def display(i,dumpname,restorename,dumpdate,restoredate):
     while timediff.total_seconds()>0:
         nearestindex=nearestindex+1
         timediff=now-dumpdate[nearestindex]
+    closestindex=nearestindex
     for ind in range(i):
         if nearestindex-1>0 and (now-restoredate[nearestindex-1]).total_seconds()>0:
             msg=msg+(restoredate[nearestindex-1]).strftime("%Y/%m/%d %H:%M:%S")+'\n'
@@ -64,42 +65,41 @@ def display(i,dumpname,restorename,dumpdate,restoredate):
         msg=msg+('Dump Transh bins: '+dumpname[ind+nearestindex]+'\n\n')
         msg=msg+(restoredate[ind+nearestindex]).strftime("%Y/%m/%d %H:%M:%S")+'\n'
         msg=msg+('Restore Transh bins: '+restorename[ind+nearestindex]+'\n\n')
-            
+
     return msg,closest,closestindex
 
 
 now = datetime.now()
-current_time = now.strftime("%Y/%m/%d %H:%M:%S")   
+current_time = now.strftime("%Y/%m/%d %H:%M:%S")
 with open('log.txt','w') as file:
     file.write('Start service on '+current_time+'\n')
     file.close()
     print('Start service on '+current_time)
 
-    
+
 message={"dump":'Dump trash bins',"restore":'Restore trash bins'}
 
 dumpname,restorename,dumpdate,restoredate=generate_table(100)
 schedulenext,closest,closestindex=display(10,dumpname,restorename,dumpdate,restoredate)
-    
 if closest=="restore":
     nexttime=restoredate[closestindex]
     nextname=restorename[closestindex]
     time.sleep((nexttime-now).total_seconds())
     send_email(receiver[nextname],message["restore"],schedulenext)
     closestindex=closestindex+1
-    
+
 currentindex=closestindex
-while currentindex<=len(dumpname):    
+while currentindex<=len(dumpname):
     now = datetime.now()
     nexttime=dumpdate[closestindex]
     nextname=dumpname[closestindex]
     time.sleep((nexttime-now).total_seconds())
     send_email(receiver[nextname],message["dump"],schedulenext)
-    
+
     now = datetime.now()
     nexttime=restoredate[closestindex]
     nextname=restorename[closestindex]
     time.sleep((nexttime-now).total_seconds())
     send_email(receiver[nextname],message["restore"],schedulenext)
-    
+
     currentindex=currentindex+1
