@@ -4,19 +4,25 @@ import smtplib
 import time
 from datetime import datetime
 import ast
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from datetime import datetime,timedelta
 
 try:
-    load_dotenv(".env")
+    env={}
+    with open(".env") as credentials:
+        for line in credentials:
+            name, var = line.partition("=")[::2]
+            env[name.strip()] = var.replace('\n','')
 except:
     print(".env not found")
 
-SENDER = os.environ.get("GMAIL_USER")
-PASSWORD = os.environ.get("GMAIL_PASSWORD")
-receivers=os.environ.get("RECEIVERS")
+SENDER = env["GMAIL_USER"]
+PASSWORD = env["GMAIL_PASSWORD"]
+receivers=env["RECEIVERS"]
 receiver = ast.literal_eval(receivers)
-
+print(SENDER)
+print(PASSWORD)
+print(receiver)
 
 def send_email(recipient, subject, body,time=True,filename='log.txt'):
     now = datetime.now()
@@ -35,6 +41,6 @@ def send_email(recipient, subject, body,time=True,filename='log.txt'):
         file.write(text)
         file.close()
 
-for i in range(3):    
+for i in range(3):
     send_email('jackpan1994@gmail.com',SENDER,'test')
     time.sleep(10)
