@@ -35,7 +35,7 @@ def send_email(recipient, subject, body,time=True,filename='log.txt'):
         file.write(text)
         file.close()
 
-def generate_table(i=100,startdate=datetime(2020,12,28,17,0,0)):
+def generate_table(i=100,startdate=datetime(2021,2,8,17,0,0)):
     num_of_people=len(receiver)
     people=[[i%num_of_people,(i+1)%num_of_people] for i in range(i)]
     dumpname=[list(receiver.keys())[i[0]] for i in people]
