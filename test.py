@@ -39,6 +39,6 @@ def send_email(recipient, subject, body,time=True,filename='log.txt'):
         file.write(text)
         file.close()
 
-for i in range(3):
+for i in range(10):
     send_email('jackpan1994@gmail.com',SENDER,'test')
     time.sleep(10)
