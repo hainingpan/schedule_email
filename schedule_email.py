@@ -91,14 +91,14 @@ if closest=="restore":
 currentindex=closestindex
 while currentindex<=len(dumpname):
     now = datetime.now()
-    nexttime=dumpdate[closestindex]
-    nextname=dumpname[closestindex]
+    nexttime=dumpdate[currentindex]
+    nextname=dumpname[currentindex]
     time.sleep((nexttime-now).total_seconds())
     send_email(receiver[nextname],message["dump"],schedulenext)
 
     now = datetime.now()
-    nexttime=restoredate[closestindex]
-    nextname=restorename[closestindex]
+    nexttime=restoredate[currentindex]
+    nextname=restorename[currentindex]
     time.sleep((nexttime-now).total_seconds())
     send_email(receiver[nextname],message["restore"],schedulenext)
 
